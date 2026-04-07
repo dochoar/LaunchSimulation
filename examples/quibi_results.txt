@@ -1,0 +1,14 @@
+[Lanzador] Batch reasoning failed: Error code: 404 - {'error': {'message': "model 'qwen2.5:7b' not found", 'type': 'not_found_error', 'param': None, 'code': None}}
+Executing Quibi Launch Simulation with 10 GenZ/Millennial Personas...
+==================================================
+Interaction Summary:
+------------------------------
+Abandoned   :  2 agents ( 20.0%)
+Clicked     :  2 agents ( 20.0%)
+Ignored     :  1 agents ( 10.0%)
+Purchased   :  1 agents ( 10.0%)
+Shared      :  1 agents ( 10.0%)
+Viewed      :  3 agents ( 30.0%)
+
+Total purchases: 1/10
+✅ Simulation complete!

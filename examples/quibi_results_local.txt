@@ -1,0 +1,12 @@
+Executing Quibi Launch Simulation with 10 GenZ/Millennial Personas...
+==================================================
+Interaction Summary:
+------------------------------
+Abandoned   :  1 agents ( 10.0%)
+Ignored     :  1 agents ( 10.0%)
+Read        :  5 agents ( 50.0%)
+Shared      :  1 agents ( 10.0%)
+Viewed      :  2 agents ( 20.0%)
+
+Total purchases: 0/10
+✅ Simulation complete!
