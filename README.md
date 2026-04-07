@@ -3,118 +3,261 @@
 <h1>🚀 LaunchSim</h1>
 
 <p>
-<em>A Product Launch Simulation Engine, Predicting Market Responses</em>
+<em>A Product Launch Simulation Engine — Rehearse your product launch in a digital sandbox</em>
 </p>
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Latest-FF6F00?style=flat-square)](https://langchain.ai/)
 
 </div>
 
-**LaunchSim** is a next-generation market prediction engine powered by multi-agent technology. By inputting your product features and target audience, it automatically constructs a high-fidelity parallel digital market. Within this space, dozens of intelligent virtual personas—driven by **OpenAI's Large Language Models (LLMs)** and orchestrated through **LangChain & LangGraph**—with independent occupations, pain points, willingness to pay, and cognitive biases freely interact and evaluate your startup launch. You can inject pricing variables dynamically to precisely deduce product-market fit — **rehearse your product launch in a digital sandbox, and win real markets after countless simulations**.
+---
 
-> You only need to: Define your product (name, price, description) and execute the test.</br>
-> LaunchSim will return: A detailed prediction of interactions (purchases, skips) and a high-fidelity digital market response.
+## 🤔 What is LaunchSim?
 
-LaunchSim is dedicated to creating a swarm intelligence mirror that maps the reality of consumer behavior. We break through the limitations of traditional market research:
+LaunchSim is a **multi-agent market simulation engine** that predicts how a product launch will perform in the real world. It creates a "parallel digital market" with intelligent virtual personas that interact with your product, generating realistic purchase decisions, social media posts, and strategic metrics.
 
-- **At the Macro Level**: We are a rehearsal laboratory for founders and product managers, allowing pricing strategies and feature rollouts to be tested at zero risk.
-- **At the Micro Level**: We are a sandbox for deeply analyzing individual user adoption—letting every persona archetype evaluate your product organically.
+### How It Works
 
-From serious market validation to finding the optimal price point, we let every "what if" see its outcome.
-
-### ⚙️ Simulation Engine Features
-
-1. **Powered by OpenAI & LangGraph**: State-of-the-art LLMs synthesize the product value proposition and emulate complex human cognitive behaviors safely and interactively.
-2. **Persona Generation**: Creates diverse archetypes (Early Adopters, Skeptics, Power Users) injected with specific pain points, tech-savviness, and annual income metrics.
-3. **Environment Setup**: Fully configured FastAPI backend utilizing ChromaDB vector stores mapped against consumer behavioral models.
-4. **Behavioral Simulation**: Agents synthesize product details and act on cognitive biases to make purchase decisions dynamically.
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        Your Product (Idea)                               │
+│              Name, price, description, target market                    │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    AGENT PIPELINE (LangGraph)                            │
+│                                                                          │
+│  1. 🔍 RESEARCHER    → Searches market info, competitors               │
+│                         analyzes complaints and industry prices         │
+│                                                                          │
+│  2. 👤 ETHNOGRAPHER  → Generates N realistic virtual personas          │
+│                        with demographics, archetypes, pain points       │
+│                                                                          │
+│  3. 🧠 POPULATOR     → Indexes each persona in vector store             │
+│                        (ChromaDB) to enable RAG interviews              │
+│                                                                          │
+│  4. 🎯 LAUNCHER      → Simulates interactions: ignore → buy             │
+│                        based on profile + price                         │
+│                                                                          │
+│  5. 💬 CONVERSATIONALIST → Generates social media posts                 │
+│                        (Twitter, Reddit, Product Hunt)                  │
+│                                                                          │
+│  6. 📊 CHRONICLER    → Calculates metrics, adoption curve              │
+│                        generates strategic insights                     │
+│                                                                          │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           RESULTS                                        │
+│   • Conversion rate, adoption, sentiment                                 │
+│   • Social media posts                                                  │
+│   • Live interviews with generated personas                             │
+│   • Strategic insights to improve your product                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-### 🚀 Getting Started (Source Code Deployment)
+## 🏗 System Architecture
 
-#### Prerequisites
+### Tech Stack
 
-| Tool | Version | Description | Check Installation |
-|------|---------|-------------|-------------------|
-| **Node.js** | 18+ | Frontend runtime, includes npm | `node -v` |
-| **Python** | 3.11+ | Backend runtime | `python --version` |
+| Component | Technology | Purpose |
+|------------|------------|-----------|
+| **Frontend** | Next.js 14 + React | UI to run simulations |
+| **Backend** | FastAPI + Python 3.11+ | REST API + agent logic |
+| **Orchestration** | LangGraph | Agent pipeline with shared state |
+| **LLM** | Ollama (local) or OpenAI | Content generation and reasoning |
+| **Vector Store** | ChromaDB | Persistent memory for each persona |
+| **Database** | SQLite (aiosqlite) | Simulation results persistence |
 
-#### 1. Configure Environment Variables
+### Data Flow
+
+1. **User** sends product data (name, price, description)
+2. **API** creates record in SQLite and returns `simulation_id`
+3. **LangGraph** executes agent pipeline in background
+4. **User** polls until simulation completes
+5. **Results** include: personas, interactions, posts, metrics
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+| Tool | Version | Check Command |
+|------|---------|---------------|
+| **Node.js** | 18+ | `node -v` |
+| **Python** | 3.11+ | `python --version` |
+| **Ollama** (optional) | Latest | `ollama --version` |
+
+### Installation
 
 ```bash
-# Copy the example configuration file
+# 1. Clone the repo
+git clone https://github.com/dochoar/LaunchSimulation.git
+cd LaunchSimulation
+
+# 2. Install dependencies
+npm run setup          # Frontend (Next.js)
+npm run install:backend # Backend (Python)
+
+# 3. Configure environment
 cp backend/.env.example backend/.env
 
-# Edit the .env file and fill in required LLM API keys for the agent logic
+# 4. Start services
+npm run dev
 ```
 
-**Required Environment Variables:**
+### Service URLs
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+
+---
+
+## 📡 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/simulate` | POST | Start simulation with product data |
+| `/api/simulate/from-brief` | POST | Start simulation from free text |
+| `/api/results/{simulation_id}` | GET | Get complete results |
+| `/api/results/{simulation_id}/status` | GET | Get simulation status |
+| `/api/results/{simulation_id}/personas` | GET | Get only generated personas |
+| `/api/results/{simulation_id}/posts` | GET | Get only social posts |
+| `/api/interview/{simulation_id}/agents` | GET | List agents for interview |
+| `/api/interview/{simulation_id}/{agent_id}` | POST | Interview a persona |
+
+---
+
+## 🤖 The Agents Explained
+
+### 1. Researcher
+Searches real-time market information using DuckDuckGo. Generates 3 different queries (competitors, complaints, prices), executes parallel searches, verifies quality, and synthesizes results into a market context.
+
+### 2. Ethnographer
+Generates virtual personas based on market context. Each persona has: unique ID, demographics, archetype (early adopter, skeptic, etc.), pain points, objectives, cognitive biases, and willingness to pay (WTP).
+
+### 3. Populator
+Indexes each persona in ChromaDB to enable RAG interviews after simulation. Stores: identity, pain points, psychology, and bio.
+
+### 4. Launcher
+Simulates the conversion funnel:
+- Ignored (30%) → Seen (25%) → Clicked (20%) → Read (12%) → Purchased (7%) → Abandoned (4%) → Shared (2%)
+
+Uses archetypes to modify probabilities (early adopter ×2.5, skeptic ×0.2).
+
+### 5. Conversationalist
+For personas who interacted with the product, generates social media posts:
+- Twitter (280 characters)
+- Reddit (detailed)
+- Product Hunt
+- App Store
+
+### 6. Chronicler
+Calculates final metrics:
+- KPIs: conversion, views, clicks, purchases
+- Adoption curve (72 hours)
+- Main objections (top 5)
+- Strategic insights (3-5 recommendations)
+
+### 7. Interviewer
+Allows asking natural language questions to any generated persona. Uses RAG to search that persona's memory and respond in first person.
+
+---
+
+## 🧪 Usage Example
+
+```python
+import requests
+
+# 1. Start simulation
+response = requests.post("http://localhost:8000/api/simulate", json={
+    "name": "My Product",
+    "description": "An amazing solution for...",
+    "price_usd": 29.99,
+    "target_market": "Tech professionals",
+    "num_agents": 50
+})
+
+simulation_id = response.json()["simulation_id"]
+
+# 2. Wait for completion (polling)
+import time
+while True:
+    status = requests.get(f"http://localhost:8000/api/results/{simulation_id}/status").json()
+    if status["status"] == "completed":
+        break
+    time.sleep(2)
+
+# 3. Get results
+results = requests.get(f"http://localhost:8000/api/results/{simulation_id}").json()
+print(results["metrics"])
+```
+
+---
+
+## ⚙️ LLM Configuration
+
+By default, LaunchSim uses **Ollama** (local, free). Edit `backend/.env`:
 
 ```env
-# LLM API Configuration
-OPENAI_API_KEY=your_openai_api_key_here
+# Ollama (local, recommended for Mac/Linux)
+LLM_API_KEY=ollama
+LLM_BASE_URL=http://localhost:11434/v1
+LLM_MODEL_NAME=qwen2.5:7b
+
+# Or OpenAI (cloud)
+LLM_API_KEY=sk-...
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL_NAME=gpt-4o-mini
 ```
-
-#### 2. Install Dependencies
-
-You can install all frontend and backend dependencies easily:
-
-```bash
-# Install frontend dependencies in the root (alias for frontend install)
-npm run setup
-
-# Install backend dependencies (uses pip and requirements.txt)
-npm run install:backend
-```
-
-#### 3. Start Services
-
-```bash
-# Start both Next.js frontend and FastAPI backend concurrently
-npm run dev
-```
-
-**Service URLs:**
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
 
 ---
 
-### 🧪 Running Simulations
+## 📁 Project Structure
 
-You can run simulations in one of two ways: either programmatically via Python scripts (for quick head-less testing), or through the complete Web Dashboard.
-
-#### 1. Running an Example Simulation in the Terminal
-We provide historical simulation models (like the **Quibi Launch Failure**) that you can execute directly in your terminal to see the AI reasoning and interaction metrics textually without needing a UI.
-
-```bash
-# Ensure you are at the project root
-cd LaunchSim
-
-# Execute the simulation using the backend's environment
-backend/.venv/bin/python examples/quibi_simulation.py
 ```
-
-#### 2. Running the Complete Visual Simulation
-To run the full-fledged simulation with visual metrics, adoption curves, and LangGraph multi-agent analysis (`Cronista` agent summaries), you should start the entire React/FastAPI stack:
-
-```bash
-# Start both Next.js frontend and FastAPI backend concurrently
-npm run dev
+LaunchSimulation/
+├── backend/
+│   ├── app/
+│   │   ├── agents/          # The 6 system agents
+│   │   ├── api/             # REST endpoints
+│   │   ├── core/            # Config, LLM, DB
+│   │   ├── models/          # Pydantic schemas + ORM
+│   │   └── services/        # SimulationService, VectorStore
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/                 # Next.js 14 app
+│   ├── src/
+│   │   ├── app/            # Pages and components
+│   │   ├── components/     # UI components
+│   │   └── lib/            # API client
+│   └── package.json
+│
+├── package.json            # Development scripts
+└── README.md
 ```
-Then navigate your browser to `http://localhost:3000`. Here you can define your custom product parameters, launch it, and watch the agents react dynamically through the interactive dashboard.
 
 ---
 
-## 🛠 Available Scripts
+## 📄 License
 
-In the root `package.json`:
-- `npm run dev`: Runs both frontend and backend 
-- `npm run dev:backend`: Runs backend server 
-- `npm run dev:frontend`: Runs frontend server 
-- `npm run install:frontend` or `npm run setup`: Installs frontend dependencies 
-- `npm run install:backend`: Installs backend dependencies 
+MIT License — Feel free to use, modify, and share!
+
+---
+
+<div align="center">
+
+**Questions? Issues? Pull Requests?**  
+Excellent! This is an open source project. All contributions are welcome.
+
+</div>
