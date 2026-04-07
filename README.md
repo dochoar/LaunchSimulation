@@ -1,263 +1,373 @@
 <div align="center">
 
-<h1>🚀 LaunchSim</h1>
+# LaunchSim
 
-<p>
-<em>A Product Launch Simulation Engine — Rehearse your product launch in a digital sandbox</em>
-</p>
+**Rehearse your product launch in a digital sandbox before spending a dollar.**
+
+LaunchSim creates a swarm of synthetic personas powered by an LLM, runs them through your product pitch, and returns conversion metrics, social posts, market objections, and strategic insights — in minutes.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python)](https://www.python.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Latest-FF6F00?style=flat-square)](https://langchain.ai/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 </div>
 
 ---
 
-## 🤔 What is LaunchSim?
+## How to use it (3 steps)
 
-LaunchSim is a **multi-agent market simulation engine** that predicts how a product launch will perform in the real world. It creates a "parallel digital market" with intelligent virtual personas that interact with your product, generating realistic purchase decisions, social media posts, and strategic metrics.
-
-### How It Works
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        Your Product (Idea)                               │
-│              Name, price, description, target market                    │
-└─────────────────────────────────┬───────────────────────────────────────┘
-                                  │
-                                  ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    AGENT PIPELINE (LangGraph)                            │
-│                                                                          │
-│  1. 🔍 RESEARCHER    → Searches market info, competitors               │
-│                         analyzes complaints and industry prices         │
-│                                                                          │
-│  2. 👤 ETHNOGRAPHER  → Generates N realistic virtual personas          │
-│                        with demographics, archetypes, pain points       │
-│                                                                          │
-│  3. 🧠 POPULATOR     → Indexes each persona in vector store             │
-│                        (ChromaDB) to enable RAG interviews              │
-│                                                                          │
-│  4. 🎯 LAUNCHER      → Simulates interactions: ignore → buy             │
-│                        based on profile + price                         │
-│                                                                          │
-│  5. 💬 CONVERSATIONALIST → Generates social media posts                 │
-│                        (Twitter, Reddit, Product Hunt)                  │
-│                                                                          │
-│  6. 📊 CHRONICLER    → Calculates metrics, adoption curve              │
-│                        generates strategic insights                     │
-│                                                                          │
-└─────────────────────────────────┬───────────────────────────────────────┘
-                                  │
-                                  ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           RESULTS                                        │
-│   • Conversion rate, adoption, sentiment                                 │
-│   • Social media posts                                                  │
-│   • Live interviews with generated personas                             │
-│   • Strategic insights to improve your product                          │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🏗 System Architecture
-
-### Tech Stack
-
-| Component | Technology | Purpose |
-|------------|------------|-----------|
-| **Frontend** | Next.js 14 + React | UI to run simulations |
-| **Backend** | FastAPI + Python 3.11+ | REST API + agent logic |
-| **Orchestration** | LangGraph | Agent pipeline with shared state |
-| **LLM** | Ollama (local) or OpenAI | Content generation and reasoning |
-| **Vector Store** | ChromaDB | Persistent memory for each persona |
-| **Database** | SQLite (aiosqlite) | Simulation results persistence |
-
-### Data Flow
-
-1. **User** sends product data (name, price, description)
-2. **API** creates record in SQLite and returns `simulation_id`
-3. **LangGraph** executes agent pipeline in background
-4. **User** polls until simulation completes
-5. **Results** include: personas, interactions, posts, metrics
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-| Tool | Version | Check Command |
-|------|---------|---------------|
-| **Node.js** | 18+ | `node -v` |
-| **Python** | 3.11+ | `python --version` |
-| **Ollama** (optional) | Latest | `ollama --version` |
-
-### Installation
+### Step 1 — Install
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/dochoar/LaunchSimulation.git
 cd LaunchSimulation
 
-# 2. Install dependencies
-npm run setup          # Frontend (Next.js)
-npm run install:backend # Backend (Python)
-
-# 3. Configure environment
+npm run setup            # installs frontend dependencies
+npm run install:backend  # installs Python backend dependencies
 cp backend/.env.example backend/.env
-
-# 4. Start services
-npm run dev
 ```
 
-### Service URLs
-
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
+Then open `backend/.env` and configure your LLM (see [LLM options](#llm-options) below).
 
 ---
 
-## 📡 API Endpoints
+### Step 2 — Describe your product
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/simulate` | POST | Start simulation with product data |
-| `/api/simulate/from-brief` | POST | Start simulation from free text |
-| `/api/results/{simulation_id}` | GET | Get complete results |
-| `/api/results/{simulation_id}/status` | GET | Get simulation status |
-| `/api/results/{simulation_id}/personas` | GET | Get only generated personas |
-| `/api/results/{simulation_id}/posts` | GET | Get only social posts |
-| `/api/interview/{simulation_id}/agents` | GET | List agents for interview |
-| `/api/interview/{simulation_id}/{agent_id}` | POST | Interview a persona |
+Create an `input.txt` file at the root of the project (see `input_example.txt` for reference). Edit the values to match your product:
 
----
+```
+name=Your Product Name
+description=What problem does it solve, and who has that problem?
+        How does your product solve it? (key features, not buzzwords)
+        Why is the price fair? What makes you different from alternatives?
+        Be specific — the more detail, the more realistic the simulation.
+price_usd=29.0
+channel=social_media
+target_market=
+num_agents=50
+```
 
-## 🤖 The Agents Explained
+**Channel options:** `social_media` · `email` · `paid_ads` · `seo` · `word_of_mouth` · `app_store` · `other`
 
-### 1. Researcher
-Searches real-time market information using DuckDuckGo. Generates 3 different queries (competitors, complaints, prices), executes parallel searches, verifies quality, and synthesizes results into a market context.
-
-### 2. Ethnographer
-Generates virtual personas based on market context. Each persona has: unique ID, demographics, archetype (early adopter, skeptic, etc.), pain points, objectives, cognitive biases, and willingness to pay (WTP).
-
-### 3. Populator
-Indexes each persona in ChromaDB to enable RAG interviews after simulation. Stores: identity, pain points, psychology, and bio.
-
-### 4. Launcher
-Simulates the conversion funnel:
-- Ignored (30%) → Seen (25%) → Clicked (20%) → Read (12%) → Purchased (7%) → Abandoned (4%) → Shared (2%)
-
-Uses archetypes to modify probabilities (early adopter ×2.5, skeptic ×0.2).
-
-### 5. Conversationalist
-For personas who interacted with the product, generates social media posts:
-- Twitter (280 characters)
-- Reddit (detailed)
-- Product Hunt
-- App Store
-
-### 6. Chronicler
-Calculates final metrics:
-- KPIs: conversion, views, clicks, purchases
-- Adoption curve (72 hours)
-- Main objections (top 5)
-- Strategic insights (3-5 recommendations)
-
-### 7. Interviewer
-Allows asking natural language questions to any generated persona. Uses RAG to search that persona's memory and respond in first person.
+> 💡 Tip: Copy `input_example.txt` to `input.txt` and modify the values:
+> ```bash
+> cp input_example.txt input.txt
+> ```
 
 ---
 
-## 🧪 Usage Example
+### Step 3 — Run
 
-```python
-import requests
+Open two terminals:
 
-# 1. Start simulation
-response = requests.post("http://localhost:8000/api/simulate", json={
-    "name": "My Product",
-    "description": "An amazing solution for...",
-    "price_usd": 29.99,
-    "target_market": "Tech professionals",
-    "num_agents": 50
-})
+```bash
+# Terminal 1 — start the backend
+npm run dev:backend
 
-simulation_id = response.json()["simulation_id"]
+# Terminal 2 — run your simulation
+python simulate.py
+```
 
-# 2. Wait for completion (polling)
-import time
-while True:
-    status = requests.get(f"http://localhost:8000/api/results/{simulation_id}/status").json()
-    if status["status"] == "completed":
-        break
-    time.sleep(2)
+That's it. The script reads your product details from `input.txt`, submits your product, polls until the simulation completes, and prints a full report in the terminal.
 
-# 3. Get results
-results = requests.get(f"http://localhost:8000/api/results/{simulation_id}").json()
-print(results["metrics"])
+To also open the visual dashboard, start the full stack instead:
+
+```bash
+npm run dev   # starts both backend (8000) and frontend (3000)
+```
+
+Then go to http://localhost:3000 and use the web UI (which also reads from input.txt or lets you fill in a form).
+
+---
+
+## What you get
+
+```
+════════════════════════════════════════════════════════════════
+  LaunchSim  ·  Your Product Name
+════════════════════════════════════════════════════════════════
+  Price      : $29.00
+  Channel    : social_media
+  Agents     : 50 synthetic personas
+
+  ⠹  RUNNING      personas= 32  interactions=  0  posts=  0
+
+════════════════════════════════════════════════════════════════
+  RESULTS
+════════════════════════════════════════════════════════════════
+  Viewed        :   31  (62.0%)
+  Clicked       :   18  (36.0%)
+  Purchased     :    4  (8.0%)
+  Conversion    : 8.0%
+  Avg sentiment : +0.38   (-1 hostile → +1 enthusiastic)
+
+════════════════════════════════════════════════════════════════
+  PERSONAS GENERATED (first 5)
+════════════════════════════════════════════════════════════════
+  agent_001  Marcus Chen            early_adopter    WTP=$49     [BUYS    ]
+             Senior engineer at Series B fintech. Drowning in PR review queue...
+
+  agent_002  Priya Nair             pragmatist       WTP=$12     [BOUNCES ]
+             Junior dev waiting 3 days for PR feedback. Price is a stretch...
+
+════════════════════════════════════════════════════════════════
+  TOP OBJECTIONS
+════════════════════════════════════════════════════════════════
+  #1  [14x]  Price point too high for individual devs — feels like a team tool
+  #2  [9x]   Privacy concerns: proprietary code sent to external AI API
+
+════════════════════════════════════════════════════════════════
+  STRATEGIC INSIGHTS
+════════════════════════════════════════════════════════════════
+  1. Add a $15/mo solo tier — 14 non-buyers cited price as the only blocker
+  2. Publish SOC 2 docs — 9 agents hard-blocked by security/privacy concerns
+  3. Mentorship Mode is underused in marketing — junior devs love it but don't see it
 ```
 
 ---
 
-## ⚙️ LLM Configuration
+## Writing a good description
 
-By default, LaunchSim uses **Ollama** (local, free). Edit `backend/.env`:
+The description is the most important field. It feeds the Researcher (who searches competitors and pricing) and the Ethnographer (who generates personas calibrated to your market).
+
+**Include:**
+- The specific problem — who has it, how often, how painful
+- How your product solves it (concrete features, not "AI-powered innovation")
+- The price and what they get for it
+- What makes you different from tools they already use
+
+**Good:**
+> CodeReview AI posts an automated code review within 60 seconds of opening a PR on GitHub. It catches logic errors, security vulnerabilities (OWASP Top 10), N+1 queries, and explains every issue in plain English with a concrete fix. Includes Mentorship Mode for junior devs. Learns your team's coding standards in 2 weeks. $29/mo per seat, 14-day free trial. For engineering teams of 2–10 drowning in PR review backlog.
+
+**Too vague:**
+> An AI tool that helps developers write better code with advanced features and improve their workflow.
+
+---
+
+## LLM options
+
+Edit `backend/.env` to switch models. Any OpenAI-compatible API works.
+
+### Local — Ollama (free, private, no internet required)
 
 ```env
-# Ollama (local, recommended for Mac/Linux)
 LLM_API_KEY=ollama
 LLM_BASE_URL=http://localhost:11434/v1
 LLM_MODEL_NAME=qwen2.5:7b
 
-# Or OpenAI (cloud)
-LLM_API_KEY=sk-...
+LLM_BOOST_API_KEY=ollama
+LLM_BOOST_BASE_URL=http://localhost:11434/v1
+LLM_BOOST_MODEL_NAME=qwen2.5:7b
+```
+
+Pull the model first:
+```bash
+ollama pull qwen2.5:7b
+```
+
+> 50 agents on a mid-range CPU: ~5–12 minutes.
+
+### Cloud — OpenAI
+
+```env
+LLM_API_KEY=sk-your-key-here
 LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL_NAME=gpt-4o-mini
+
+LLM_BOOST_API_KEY=sk-your-key-here
+LLM_BOOST_BASE_URL=https://api.openai.com/v1
+LLM_BOOST_MODEL_NAME=gpt-4o
+```
+
+> 50 agents: ~1–3 minutes. Cost: ~$0.10–0.30 per run with gpt-4o-mini.
+
+### Other compatible providers
+
+| Provider | `LLM_BASE_URL` | Notes |
+|----------|---------------|-------|
+| Groq | `https://api.groq.com/openai/v1` | Fast, generous free tier |
+| Together AI | `https://api.together.xyz/v1` | Good open-source models |
+| LM Studio | `http://localhost:1234/v1` | Local GUI alternative to Ollama |
+
+---
+
+## Tuning the simulation
+
+All of these are in `simulate.py` — no need to touch the backend.
+
+```python
+"num_agents": 50,      # 10–30 = fast/rough, 50 = recommended, 100–200 = high confidence
+"channel": "email",    # changes which social platforms personas prefer
+"target_market": "...",# more specific → more varied, relevant personas
+```
+
+For deeper changes (conversion probabilities, persona archetypes, social post formats), see the [advanced customization](#advanced-customization) section below.
+
+---
+
+## Worked example
+
+The `examples/codereview-ai/` folder contains a complete realistic simulation:
+
+```bash
+# See what output looks like — no backend needed:
+python examples/codereview-ai/run_simulation.py --sample
+```
+
+It uses CodeReview AI ($29/mo, developer tooling) as the product and includes pre-computed realistic output showing 50 personas, 6 social posts, 5 objections, and 5 strategic insights.
+
+---
+
+## Visual dashboard
+
+Start the full stack (`npm run dev`) and open http://localhost:3000 to use the web UI instead of the terminal script.
+
+After a simulation runs you'll get:
+
+- **Metrics cards** — conversion funnel at a glance
+- **Adoption curve** — purchase velocity over 72 hours
+- **Social feed** — all generated posts, filterable by platform and sentiment
+- **Market Resistance** — top objections with frequency
+- **Strategic Insights** — AI-generated recommendations
+- **Persona interview panel** — ask any generated persona any question in natural language
+
+---
+
+## Advanced customization
+
+### Change conversion probabilities
+
+`backend/app/agents/launcher.py`:
+
+```python
+BASE_PROBABILITIES = {
+    "ignored":   0.30,   # ← lower this to model high-awareness markets
+    "viewed":    0.25,
+    "clicked":   0.20,
+    "read":      0.12,
+    "purchased": 0.07,   # ← raise this for high-intent markets (e.g. enterprise inbound)
+    "abandoned": 0.04,
+    "shared":    0.02,
+}
+```
+
+### Change archetype purchase multipliers
+
+```python
+ARCHETYPE_PURCHASE_MULTIPLIERS = {
+    "early_adopter":   2.5,   # buys fast, forgives rough edges
+    "pragmatist":      1.0,   # buys when clear ROI
+    "conservative":    0.5,   # needs references, case studies
+    "price_sensitive": 0.4,   # WTP is the main gate
+    "skeptic":         0.2,   # rarely buys on first exposure
+}
+```
+
+### Change persona batch size
+
+`backend/app/agents/ethnographer.py`:
+
+```python
+BATCH_SIZE = 8    # increase to 15–20 if using GPT-4-class models
+```
+
+### Add a social media platform
+
+`backend/app/agents/conversador.py`:
+
+```python
+PLATFORM_CONFIGS = {
+    "twitter":      {"max_chars": 280,  "tone": "casual, punchy"},
+    "reddit":       {"max_chars": 800,  "tone": "detailed, community-style"},
+    "product_hunt": {"max_chars": 400,  "tone": "constructive, maker-friendly"},
+    "app_store":    {"max_chars": 300,  "tone": "direct, star-rating style"},
+    # Add your own platform here
+}
 ```
 
 ---
 
-## 📁 Project Structure
+## Project structure
 
 ```
 LaunchSimulation/
+│
+├── simulate.py                     ← RUN HERE — after creating input.txt
+│
 ├── backend/
-│   ├── app/
-│   │   ├── agents/          # The 6 system agents
-│   │   ├── api/             # REST endpoints
-│   │   ├── core/            # Config, LLM, DB
-│   │   ├── models/          # Pydantic schemas + ORM
-│   │   └── services/        # SimulationService, VectorStore
-│   ├── requirements.txt
-│   └── .env.example
+│   ├── .env.example                ← copy to .env, configure your LLM
+│   └── app/
+│       ├── agents/
+│       │   ├── graph.py            # LangGraph pipeline
+│       │   ├── researcher.py       # market research (DuckDuckGo + LLM)
+│       │   ├── ethnographer.py     # persona generation
+│       │   ├── populator.py        # ChromaDB indexing
+│       │   ├── launcher.py         # interaction simulation + conversion funnel
+│       │   ├── conversador.py      # social post generation
+│       │   ├── chronicler.py       # metrics + strategic insights
+│       │   └── interviewer.py      # RAG-powered persona chat
+│       ├── api/                    # REST endpoints (simulate, results, interview)
+│       ├── core/                   # config, LLM factory, database
+│       ├── models/                 # Pydantic schemas + SQLAlchemy ORM
+│       └── services/               # simulation orchestration + vector store
 │
-├── frontend/                 # Next.js 14 app
-│   ├── src/
-│   │   ├── app/            # Pages and components
-│   │   ├── components/     # UI components
-│   │   └── lib/            # API client
-│   └── package.json
+├── src/                            # Next.js frontend
+│   ├── app/page.tsx                # product submission form
+│   ├── app/simulation/[id]/page.tsx # results dashboard
+│   └── components/                 # metrics, chart, social feed, interview panel
 │
-├── package.json            # Development scripts
-└── README.md
+├── examples/
+│   └── codereview-ai/              # worked example with sample output
+│       ├── product_brief.md
+│       ├── run_simulation.py
+│       └── sample_output.json      # pre-computed — view without running backend
+│
+└── package.json                    # npm run dev · dev:backend · dev:frontend
 ```
 
 ---
 
-## 📄 License
+## API reference
 
-MIT License — Feel free to use, modify, and share!
+If you prefer to call the API directly (curl, Postman, your own script):
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/simulate` | POST | Start a simulation |
+| `/api/simulate/from-brief` | POST | Start from free-text product description |
+| `/api/results/{id}` | GET | Full results |
+| `/api/results/{id}/status` | GET | Lightweight status poll |
+| `/api/results/{id}/personas` | GET | Generated personas only |
+| `/api/results/{id}/posts` | GET | Social posts only |
+| `/api/interview/{id}/agents` | GET | List interviewable personas |
+| `/api/interview/{id}/{agent_id}` | POST | Ask a persona a question |
+
+Interactive docs: http://localhost:8000/docs
 
 ---
 
-<div align="center">
+## FAQ
 
-**Questions? Issues? Pull Requests?**  
-Excellent! This is an open source project. All contributions are welcome.
+**How long does a simulation take?**
+With Ollama (local, 7B model): 5–15 minutes for 50 agents depending on hardware.
+With Groq or OpenAI: 1–3 minutes.
 
-</div>
+**How do I get more varied personas?**
+Be more specific in `target_market`. "developers" produces similar personas. "junior backend developers in Southeast Asia earning under $30K" produces diverse, realistic ones.
+
+**Where is data stored?**
+- Simulation results: `backend/launchsim.db` (SQLite)
+- Persona memories (for interviews): `backend/chroma_db/`
+
+Delete both to reset everything.
+
+**Does this send my product description to the internet?**
+Only if you use a cloud LLM (OpenAI, Groq, etc.). With Ollama, everything runs locally and nothing leaves your machine.
+
+---
+
+## License
+
+MIT — use it, fork it, ship it.

@@ -1,0 +1,10 @@
+# LaunchSim Configuration File
+# Edit the values below to configure your product simulation
+
+# Product Information
+name=CodeReview AI
+description=CodeReview AI automatically reviews every pull request on GitHub within 60 seconds — catching logic errors, security vulnerabilities, and performance issues before they reach production. Unlike SonarQube or Codacy, it explains *why* each issue matters and shows a concrete fix. Mentorship Mode adds educational context for junior devs. Learns your team's coding standards in 2 weeks. $29/mo per seat, 14-day free trial, no credit card required. Target: engineering teams of 2–10 who lose hours every week to PR review backlog.
+price_usd=29.0
+channel=social_media
+target_market=engineering teams of 2–10 who lose hours every week to PR review backlog
+num_agents=50
