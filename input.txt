@@ -1,10 +1,6 @@
-# LaunchSim Configuration File
-# Edit the values below to configure your product simulation
-
-# Product Information
-name=CodeReview AI
-description=CodeReview AI automatically reviews every pull request on GitHub within 60 seconds — catching logic errors, security vulnerabilities, and performance issues before they reach production. Unlike SonarQube or Codacy, it explains *why* each issue matters and shows a concrete fix. Mentorship Mode adds educational context for junior devs. Learns your team's coding standards in 2 weeks. $29/mo per seat, 14-day free trial, no credit card required. Target: engineering teams of 2–10 who lose hours every week to PR review backlog.
-price_usd=29.0
+name=LaunchSim
+description=LaunchSim is a developer tool that simulates a product launch using a swarm of AI-powered synthetic personas. You describe your product, set a price and channel, and the tool generates up to 200 realistic buyer personas, runs them through your pitch, and returns a full report: conversion funnel, top objections, social media posts each persona would write, and strategic recommendations. Runs 100% locally with Ollama or via OpenAI/Groq. Built for indie hackers and startup founders who want to validate a product idea before spending money on ads or building the wrong thing. Competes with manual user interviews, surveys, and expensive focus groups.
+price_usd=9
 channel=social_media
-target_market=engineering teams of 2–10 who lose hours every week to PR review backlog
-num_agents=50
+target_market=Indie hackers, solo founders, and early-stage startups validating product ideas
+num_agents=10

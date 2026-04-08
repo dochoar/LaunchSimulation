@@ -139,7 +139,7 @@ def api(method: str, path: str, body: dict | None = None) -> dict:
         method=method,
     )
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
+        with urllib.request.urlopen(req, timeout=300) as r:
             return json.loads(r.read())
     except urllib.error.HTTPError as e:
         raw = e.read().decode()

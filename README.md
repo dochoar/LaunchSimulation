@@ -4,7 +4,7 @@
 
 **Rehearse your product launch in a digital sandbox before spending a dollar.**
 
-LaunchSim creates a swarm of synthetic personas powered by an LLM, runs them through your product pitch, and returns conversion metrics, social posts, market objections, and strategic insights — in minutes.
+LaunchSim creates a swarm of synthetic personas powered by an LLM and simulates true swarm dynamics: agents influence each other through an accumulated social signal, so when an influencer buys or shares, it raises the odds for every agent that comes after — just like a real launch. Returns conversion metrics, social posts, market objections, and strategic insights — in minutes.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
