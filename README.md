@@ -11,6 +11,8 @@ LaunchSim creates a swarm of synthetic personas powered by an LLM and simulates 
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python)](https://www.python.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Latest-FF6F00?style=flat-square)](https://langchain.ai/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+[![Clones](https://img.shields.io/endpoint?url=https%3A%2F%2Fgist.githubusercontent.com%2Fdochoar%2F<GIST_ID>%2Fraw%2Fclone.json)](https://github.com/MShawon/github-clone-count-badge)
+
 
 </div>
 

@@ -1,0 +1,22 @@
+name: GitHub Clone Count Update
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch and update clone count
+        uses: MShawon/github-clone-count-badge@v1.1.0
+        with:
+          repository: dochoar/LaunchSimulation
+          badge_label: "Clones"
+          badge_color: "blue"
+          gist_id: ${{ secrets.GIST_ID }}
+          gh_token: ${{ secrets.GH_TOKEN }}
