@@ -14,14 +14,6 @@ LaunchSim creates a swarm of synthetic personas powered by an LLM and simulates 
 
 </div>
 
----
-
-Since April 2026, LaunchSimulation has been cloned the following number of times:
-
-<p align="center">
-<a href='https://github.com/dochoar/LaunchSimulation'><img alt='GitHub Clones' src='https://img.shields.io/badge/dynamic/json?color=success&label=Clone&query=count&url=https://gist.githubusercontent.com/dochoar/c6c3e17eeabaf5e0becd1c0ffa752793/raw/clone.json&logo=github'></a>
-</p>
-
 
 
 ---
